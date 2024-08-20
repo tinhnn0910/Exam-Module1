@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tổng các phần tử là bội chung của 3 và 5</title>
+</head>
+<body>
+<h2> [15, 30, 45, 10, 3, 5, 60, 75, 90, 22, 7, 120] </h2>
+<button onclick="calculateSum()">Calculate Sum</button>
+
+<p id="result"></p>
+
+<script>
+    function sumOfMultiplesOf3And5(array) {
+        let total = 0;
+        for(let i = 0 ;i< array.length;i++){
+            if(array[i] % 3 === 0 && array[i] % 5 === 0){
+                total = total + array[i];
+            }
+        }
+        return total;
+    }
+    function calculateSum() {
+        const array = [15, 30, 45, 10, 3, 5, 60, 75, 90, 22, 7, 120];
+        const result = sumOfMultiplesOf3And5(array);
+        document.getElementById('result').innerText = "Tổng các phần tử là bội chung của 3 và 5 là: " + result;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tổng các phần tử là bội chung của 3 và 5</title>
+</head>
+<body>
+<h2> Điểm số</h2>
+
+<td><input type=number name="grade" id="grade"></td>
+<button onclick="calculate()">Calculate</button>
+
+<p id="result"></p>
+
+<script>
+    function roundGrade(grade) {
+        if( grade >= 0 && grade <= 100){
+        if (grade < 48 || grade >= 100) {
+            return grade;
+        }
+        const nextMultipleOf5 = Math.ceil(grade / 5) * 5;
+        if (nextMultipleOf5 - grade < 3) {
+            return nextMultipleOf5;
+        } else {
+            return grade;
+        }
+    }else{
+            return -1;
+        }}
+    function calculate() {
+        let grade = document.getElementById("grade").value;
+        const roundedGrades = roundGrade(grade);
+        if(roundedGrades === -1){
+            document.getElementById('result').innerText = "Điểm số không hợp lệ";
+        }
+        else {
+            document.getElementById('result').innerText = "Điểm số sau khi làm tròn: " + roundedGrades;
+        }
+
+    }
+</script>
+</body>
+</html>

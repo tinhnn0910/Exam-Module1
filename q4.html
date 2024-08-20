@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khách hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="p-8">
+        <h1 class="text-3xl font-bold mb-6">Quản lý khách hàng</h1>
+
+        <form id="customerForm" class="mb-8">
+            <div class="grid grid-cols-2 gap-4">
+                <input type="text" id="id" placeholder="Mã khách hàng" class="border p-2 rounded" required>
+                <input type="text" id="name" placeholder="Tên khách hàng" class="border p-2 rounded" required>
+                <input type="text" id="phone" placeholder="Số điện thoại" class="border p-2 rounded" required>
+                <input type="text" id="address" placeholder="Địa chỉ" class="border p-2 rounded" required>
+                <input type="text" id="email" placeholder="Email" class="border p-2 rounded" required>
+                <input type="file" id="image" accept="image/*" class="border p-2 rounded">
+            </div>
+            <button type="submit" id="submitBtn" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Thêm khách hàng</button>
+        </form>
+        <table class="w-full">
+            <thead>
+            <tr class="bg-gray-200">
+                <th class="p-2 text-left">Ảnh</th>
+                <th class="p-2 text-left">Mã khách hàng</th>
+                <th class="p-2 text-left">Tên khách hàng</th>
+                <th class="p-2 text-left">Số điện thoại</th>
+                <th class="p-2 text-left">Địa chỉ</th>
+                <th class="p-2 text-left">Email</th>
+                <th class="p-2 text-left"></th>
+            </tr>
+            </thead>
+            <tbody id="customerList"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    class Customer {
+        constructor(id, name, phone, address, email, image) {
+            this.id = id;
+            this.name = name;
+            this.phone = phone;
+            this.address = address;
+            this.email = email;
+            this.image = image;
+        }
+    }
+
+    class CustomerManager {
+        constructor() {
+            this.customers = [];
+            this.currentId = 1;
+        }
+
+        addCustomer(customer) {
+            customer.id = this.currentId++;
+            this.customers.push(customer);
+        }
+
+        getCustomers() {
+            return this.customers;
+        }
+    }
+
+    const customerManager = new CustomerManager();
+
+
+    document.getElementById('customerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const id = document.getElementById('id').value;
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
+        const email = document.getElementById('email').value;
+        const imageFile = document.getElementById('image').files[0];
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const image = event.target.result;
+                const customer = new Customer(id, name, phone, address, email, image);
+                customerManager.addCustomer(customer);
+            updateCustomerList();
+        };
+
+        if (imageFile) {
+            reader.readAsDataURL(imageFile);
+        }
+        this.reset();
+    });
+
+    function updateCustomerList() {
+        const customerList = document.getElementById('customerList');
+        customerList.innerHTML = '';
+        customerManager.getCustomers().forEach(customer => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                    <td class="border-t p-2"><img src="${customer.image}" alt="${customer.name}" class="w-16 h-16 object-cover"></td>
+                    <td class="border-t p-2">${customer.id}</td>
+                    <td class="border-t p-2">${customer.name}</td>
+                    <td class="border-t p-2">${customer.phone}</td>
+                    <td class="border-t p-2">${customer.address}</td>
+                     <td class="border-t p-2">${customer.email}</td>
+                `;
+            customerList.appendChild(row);
+        });
+    }
+
+
+
+</script>
+</body>
+</html>

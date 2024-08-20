@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cặp số có tổng chia hết cho k</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .input-group input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        </style>
+</head>
+<body>
+<h2> [1, 2, 3, 4, 5, 6,7,8,9,10,11,12,11,14,12,19] </h2>
+<div class="container">
+    <div class="input-group">
+        <h2>k =</h2>
+        <input type="number" name="number" id="number">
+    </div>
+    <button onclick="calculate()">Calculate</button>
+</div>
+
+<p id="result"></p>
+
+<script>
+    function findPairsDivisibleByK(arr, k) {
+        const pairs = [];
+        for (let i = 0; i < arr.length - 1; i++) {
+            for (let j = i + 1; j < arr.length; j++) {
+                const sum = arr[i] + arr[j];
+                if (sum % k === 0) {
+                    pairs.push([arr[i], arr[j]]);
+                }
+            }
+        }
+        return pairs;
+    }
+
+    function calculate() {
+        let k = document.getElementById("number").value;
+        const arr = [1, 2, 3, 4, 5, 6,7,8,9,10,11,12,11,14,12,19];
+        const resultPairs = findPairsDivisibleByK(arr, k);
+        const resultText = resultPairs.map(pair => `(${pair[0]},${pair[1]})`).join(', ');
+
+        document.getElementById('result').innerText = k === 0 ? "Cặp số có tổng chia hết cho k là: " + resultText : "Khong the chia cho so 0";
+    }
+</script>
+</body>
+</html>
